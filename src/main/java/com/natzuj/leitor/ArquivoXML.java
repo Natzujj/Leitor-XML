@@ -23,34 +23,34 @@ public class ArquivoXML {
         this.file = file;
     }
 
-    public List<String> verificarPalavrasNecessarias(String[] palavrasNecessarias) throws ParserConfigurationException, SAXException, IOException {
+    public List<String> verificarTagsNecessarias(String[] tagsNecessarias) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(file);
         doc.getDocumentElement().normalize();
 
-        List<String> palavrasFaltantes = new ArrayList<>();
+        List<String> tagsAusentes = new ArrayList<>();
 
-        for (String palavra : palavrasNecessarias) {
-            boolean palavraEncontrada = false;
+        for (String palavra : tagsNecessarias) {
+            boolean tagEncontrada = false;
 
             NodeList nodeList = doc.getElementsByTagName("*");
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     if (node.getNodeName().equalsIgnoreCase(palavra)) {
-                        palavraEncontrada = true;
+                        tagEncontrada = true;
                         break;
                     }
                 }
             }
 
-            if (!palavraEncontrada) {
-                palavrasFaltantes.add(palavra);
+            if (!tagEncontrada) {
+                tagsAusentes.add(palavra);
             }
         }
 
-        return palavrasFaltantes;
+        return tagsAusentes;
     }
 
     public List<String> getPalavrasComCaracteresEspeciais() throws IOException {

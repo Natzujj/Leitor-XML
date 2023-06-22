@@ -8,12 +8,18 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-public class Main {
+public class App {
+
+		public static void main(String[] args) {
+	        LeitorXML leitor = new LeitorXML();
+	        leitor.verificarPalavras();
+	    }
+
 
 	    // Caminho da pasta que vai ser lida
-	    private String path = "C:\\Users\\gabri\\Desktop\\teste";
+	    private String path = "C:\\caminho\\para\\pasta";
 	    // Tags que vão ser verificadas
-	    private String[] palavrasNecessarias = {"registroANS", "numeroProtocolo", "tipoTransacao", "padrao", "nomeContratado", "numeroGuiaOrigem"};
+	    private String[] tagsNecessarias = {"registroANS", "numeroProtocolo", "tipoTransacao", "padrao", "nomeContratado", "numeroGuiaOrigem"};
 
 	    public void verificarPalavras() {
 	        File folder = new File(path);
@@ -22,13 +28,13 @@ public class Main {
 	        for (File file : files) {
 	            try {
 	                ArquivoXML arquivoXML = new ArquivoXML(file);
-	                List<String> palavrasFaltantes = arquivoXML.verificarPalavrasNecessarias(palavrasNecessarias);
+	                List<String> tagsAusentes = arquivoXML.verificarTagsNecessarias(tagsNecessarias);
 	                List<String> palavrasComCaracteresEspeciais = arquivoXML.getPalavrasComCaracteresEspeciais();
 
-	                if (palavrasFaltantes.isEmpty()) {
+	                if (tagsAusentes.isEmpty()) {
 	                    System.out.println("Arquivo: " + file.getName() + " - Sem Tags Faltantes");
 	                } else {
-	                    System.out.println("Arquivo: " + file.getName() + " - Tags faltantes: " + palavrasFaltantes);
+	                    System.out.println("Arquivo: " + file.getName() + " - Tags faltantes: " + tagsAusentes);
 	                }
 
 	                if (!palavrasComCaracteresEspeciais.isEmpty()) {
@@ -40,9 +46,5 @@ public class Main {
 	        }
 	    }
 
-	    public static void main(String[] args) {
-	        LeitorXML leitor = new LeitorXML();
-	        leitor.verificarPalavras();
-	    }
 	}
 
